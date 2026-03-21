@@ -1,1 +1,1 @@
-# sistema-de-estoque-de-alimentos-pareciveis
+# sistema-de-estoque-de-alimentos-pereciveis
