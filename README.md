@@ -5,7 +5,7 @@ Este projeto implementa um sistema simples e funcional de controle de estoque pa
 ⚙️ Funcionalidades
 
 Cadastro de alimentos com nome, peso, quantidade, setor e data de validade
-Cálculo automático dos dias restantes até o vencimento, baseado na data atual do sistema
+Cálculo automático dos dias restantes até o vencimento, baseado na data atual do sistema e armazena esses dados.
 Classificação por prioridade em 4 níveis:
 
 🔴 VENCIDO — produto fora do prazo
@@ -15,3 +15,6 @@ Classificação por prioridade em 4 níveis:
 🟡 ATENÇÃO — vence em até 7 dias
 
 🟢 OK — dentro do prazo com folga
+
+
+Amazenamento dos dados cadastrados em andamento 🚧
