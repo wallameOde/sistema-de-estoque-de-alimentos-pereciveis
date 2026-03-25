@@ -1,0 +1,127 @@
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+
+#define TAM 50
+
+
+typedef struct{
+	int codigo;
+	char nome[50];
+	char categoria[30];
+	float peso ;
+	int quantidade;
+	int dia, mes, ano ;
+	float preco;
+	
+	
+	
+} Alimento;
+
+void cadastrar_alimento(Alimento estoque[],int *total){
+	
+	if(*total >= TAM){
+		printf("\n[ERRO] Estoque cheio!\n");
+		return;
+	}
+	
+	
+
+Alimento novo;
+
+novo.codigo = *total +1;
+printf("\n--- Cadastro de Alimento (ID: %d) ---\n", novo.codigo);
+printf("Nome: ");
+scanf(" %[^\n]", novo.nome);
+printf("Categoria : ");
+scanf(" %[^\n]", novo.categoria);
+printf("Peso (kg): ");
+scanf(" %f", &novo.peso);
+printf("Quantidade em estoque: ");
+scanf(" %d", &novo.quantidade);
+printf("Preco unitario (R$): ");
+scanf(" %f", &novo.preco);
+printf("Data de validade (DD MM AAAA): ");
+scanf(" %d %d %d", &novo.dia, &novo.mes, &novo.ano);
+
+estoque[*total] = novo;
+(*total)++;
+
+setbuf(stdin, NULL);
+printf("\n[SUCESSO] Produto '%s' adicionado!\n", novo.nome);
+}
+
+void buscar_produto(Alimento estoque[], int total) {
+    if (total == 0) {
+        printf("\n[AVISO] O estoque esta vazio! Cadastre algo primeiro.\n");
+        return;
+    }
+
+    int escolha;
+    printf("\n--- LOCALIZAR PRODUTO ---");
+    printf("\n1. Buscar por CODIGO");
+    printf("\n2. Buscar por NOME");
+    printf("\nEscolha: ");
+    scanf(" %d", &escolha);
+
+    if (escolha == 1) {
+        int codigo_busca; 
+        printf("Digite o codigo: ");
+        scanf(" %d", &codigo_busca);
+
+      
+        for (int i = 0; i < total; i++) {
+            if (estoque[i].codigo == codigo_busca) { 
+                printf("\n[ACHOU!] O produto '%s' esta na categoria: [%s]\n", estoque[i].nome, estoque[i].categoria);
+                return;
+            }
+        }
+    } 
+    else if (escolha == 2) {
+        char nome_busca[50];
+        printf("Digite o nome exato: ");
+        scanf(" %[^\n]", nome_busca);
+
+        for (int i = 0; i < total; i++) {
+            if (strcmp(estoque[i].nome, nome_busca) == 0) {
+                printf("\n[ACHOU!] O produto ID %d esta na categoria: [%s]\n", estoque[i].codigo, estoque[i].categoria);
+                return;
+            }
+        }
+    }
+
+    printf("\n[ERRO] Produto nao localizado no sistema.\n");
+}
+
+
+
+int main(){
+
+    setlocale(LC_ALL, "portuguese");
+    Alimento lista_estoque[TAM];
+    int total_produtos = 0;
+    int opcao;
+
+    do {
+        printf("\n--- MENU TESTE FRESHGUARD ---");
+        printf("\n1. Cadastrar Produto");
+        printf("\n2. Localizar Produto (Busca)"); // Nova opção
+        printf("\n0. Sair");
+        printf("\nEscolha: ");
+        scanf(" %d", &opcao);
+
+        if (opcao == 1) {
+            cadastrar_alimento(lista_estoque, &total_produtos);
+        } 
+        else if (opcao == 2) {
+            buscar_produto(lista_estoque, total_produtos); // Chama a busca
+        }
+
+    } while (opcao != 0);
+
+    printf("\nEncerrando teste. Voce cadastrou %d produtos.\n", total_produtos);
+    return 0;
+}
+	
+
+
