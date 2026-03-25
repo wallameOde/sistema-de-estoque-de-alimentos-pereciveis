@@ -41,6 +41,8 @@ void classificar(Alimento *a) {
     else  a->prioridade = 3;
 } // if e else if serivu para verificar os limites impostos no define
 
+// cadastro de alimentos
+
 void cadastrar(Alimento estoque[], int *total) {
     if (*total >= MAX){
         printf("estoque cheio!\n");
@@ -60,6 +62,7 @@ void cadastrar(Alimento estoque[], int *total) {
     
     printf("setor: ");
     scanf(" %[^\n]", novo.setor);
+    getchar();
     
     printf("data de validade (dd mm aaaa): ");
     scanf("%d %d %d", &novo.dia, &novo.mes, &novo.ano);
@@ -73,7 +76,7 @@ void cadastrar(Alimento estoque[], int *total) {
 
 void listar(Alimento estoque[], int total) {
     if (total == 0) {
-        printf("nenhum alimento cadastrade.\n");
+        printf("nenhum alimento cadastrado.\n");
         return;
     }
     
@@ -100,7 +103,6 @@ int main(){
         printf("2. Listar alimentos\n");
         printf("0. Sair\n");
         printf("Opcao: ");
-        scanf("%d", &opcao);
         scanf("%d", &opcao);
         
         if (opcao == 1) cadastrar(estoque, &total);
