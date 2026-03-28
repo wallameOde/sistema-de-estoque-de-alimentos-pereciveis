@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h> //biblioteca para datas
+
+#define MAX 100
+#define LIMITE_CRITICO 3
+#define LIMITE_ATENCAO 7
+
+typedef struct{
+    char nome[50];
+    int quantidade;
+    float peso;
+    char setor[30];
+    int dia, mes, ano;
+    int dias_restantes;
+    int prioridade;
+
+} Alimento;
+// cálculo de data
+int calcular_dias(int dia, int mes, int ano) {
+    time_t agora = time(NULL); // para poder pega a data e hora atual do sistema
+    struct tm t = {0}; // struct da biblioteca de tempo time.h
+    t.tm_mday = dia;
+    t.tm_mon = mes - 1; // meses de 0 a 11, sendo janeiro=0
+    t.tm_year = ano - 1900;
+    
+    time_t validade = mktime(&t); // representa o número de segundos decorridos desde 1970
+    double diff = difftime(validade, agora); // difftime para poder mostrar o resultado em segundos
+    
+    return (int)(diff / 86400); // converte segundos para dias 
+}
+
+void classificar(Alimento *a) {
+    int dias = calcular_dias(a->dia, a->mes, a->ano); // (a->) serve para acessar um campo da struct 
+    a->dias_restantes = dias;
+    
+    if(dias <= 0)  a->prioridade = 0;
+    else if(dias <= LIMITE_CRITICO) a->prioridade = 1;
+    else if(dias <= LIMITE_ATENCAO) a->prioridade = 2;
+    else  a->prioridade = 3;
+} // if e else if serivu para verificar os limites impostos no define
+
+// cadastro de alimentos
+
+void cadastrar(Alimento estoque[], int *total) {
+    if (*total >= MAX){
+        printf("estoque cheio!\n");
+        return;
+    }
+    
+    Alimento novo;
+    
+    printf("nome do alimento: ");
+    scanf(" %[^%\n]", novo.nome); // [^\n] permite ler nomes com espaço
+    
+    printf("peso (digite em kg): ");
+    scanf("%f", &novo.peso);
+    
+    printf("Quantidade: ");
+    scanf("%d", &novo.quantidade);
+    
+    printf("setor: ");
+    scanf(" %[^\n]", novo.setor);
+    getchar();
+    
+    printf("data de validade (dd mm aaaa): ");
+    scanf("%d %d %d", &novo.dia, &novo.mes, &novo.ano);
+    
+    classificar(&novo);
+    estoque[*total] = novo;
+    (*total)++;
+    
+    printf("\nAlimento cadastrado com sucesso!\n");
+}
+
+void listar(Alimento estoque[], int total) {
+    if (total == 0) {
+        printf("nenhum alimento cadastrado.\n");
+        return;
+    }
+    
+ char *status[] = {"VENCIDO", "CRITICO", "ATENCAO", "OK"};
+ 
+ printf("\n%-20s %-14s %-12s %-15s %-12s %s\n",
+       "Nome", "Quantidade", "Peso_kg", "Setor", "validade", "Status");
+printf("--------------------------------------------------------------------------------------------\n");
+
+ 
+ for (int i = 0; i < total; i++) {
+     Alimento a = estoque[i];
+     printf("%-20s %-14d %-12.2f %-15s %02d/%02d/%04d [%s] %d dias\n", 
+	 a.nome, a.quantidade, a.peso, a.setor, a.dia, a.mes, a.ano,status[a.prioridade], a.dias_restantes); //%-20s formata o texto com 20 caracteres à esquerda e o %-8.2 exibe o float com 8 caracteres e casas decimais
+    }
+}
+
+int main(){
+    Alimento estoque[MAX]; // os 100 do define MAX
+    int total = 0; //começar sem nada (vazio)
+    int opcao;
+    
+    do {
+        printf("\n===== CONTROLE DE ESTOQUE =====\n");
+        printf("1. Cadastrar alimento\n");
+        printf("2. Listar alimentos\n");
+        printf("0. Sair\n");
+        printf("Opcao: ");
+        scanf("%d", &opcao);
+        
+        if (opcao == 1) cadastrar(estoque, &total);
+        else if (opcao == 2)listar(estoque, total);
+    } while (opcao != 0);
+}
