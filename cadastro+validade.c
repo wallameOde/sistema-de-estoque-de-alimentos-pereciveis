@@ -184,7 +184,7 @@ int main() {
     int opcao;
 
     do {
-        printf("\n===== CONTROLE DE ESTOQUE FRESHGUARD =====\n");
+        printf("\n===== CONTROLE DE ESTOQUE MENU =====\n");
         printf("1. Cadastrar Produto\n");
         printf("2. Listar Todos os Produtos\n");
         printf("3. Localizar Produto (Busca)\n");
