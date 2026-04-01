@@ -64,12 +64,16 @@ void cadastrar_alimento(Alimento estoque[], int *total) {
     scanf(" %[^\n]", novo.categoria);
     printf("Peso (kg): ");
     scanf("%f", &novo.peso);
+    while (getchar() != '\n'); // limpa o buffer
     printf("Quantidade em estoque: ");
     scanf("%d", &novo.quantidade);
+    while (getchar() != '\n'); // limpa o buffer
     printf("Preco unitario (R$): ");
     scanf("%f", &novo.preco);
+    while (getchar() != '\n'); // limpa o buffer
     printf("Data de validade (DD MM AAAA): ");
     scanf("%d %d %d", &novo.dia, &novo.mes, &novo.ano);
+    while (getchar() != '\n'); // limpa o buffer
 
     classificar(&novo);
     estoque[*total] = novo;
@@ -119,11 +123,13 @@ void buscar_produto(Alimento estoque[], int total) {
     printf("\n2. Buscar por NOME");
     printf("\nEscolha: ");
     scanf("%d", &escolha);
+    while (getchar() != '\n'); // limpa o buffer
 
     if (escolha == 1) {
         int codigo_busca;
         printf("Digite o codigo: ");
         scanf("%d", &codigo_busca);
+        while (getchar() != '\n'); // limpa o buffer
         for (int i = 0; i < total; i++) {
             if (estoque[i].codigo == codigo_busca) {
                 printf("\n[ACHOU!] O produto '%s' (R$ %.2f) está na categoria: [%s]\n",
@@ -146,7 +152,7 @@ void buscar_produto(Alimento estoque[], int total) {
     printf("\n[ERRO] Produto não localizado no sistema.\n");
 }
 
-//função para salvar em TXT
+// Função para salvar em TXT
 void salvar_estoque(Alimento estoque[], int total) {
     FILE *arquivo = fopen("estoque.txt", "w");
     if (arquivo == NULL) {
@@ -186,16 +192,17 @@ int main() {
         printf("0. Sair\n");
         printf("Opcao: ");
         scanf("%d", &opcao);
+        while (getchar() != '\n'); // limpa o buffer
 
         if (opcao == 1) cadastrar_alimento(lista_estoque, &total_produtos);
         else if (opcao == 2) listar(lista_estoque, total_produtos);
         else if (opcao == 3) buscar_produto(lista_estoque, total_produtos);
-        else if (opcao == 4) salvar_estoque(lista_estoque, total_produtos); // opção ADD pra salvamento manual
+        else if (opcao == 4) salvar_estoque(lista_estoque, total_produtos);
         else if (opcao != 0) printf("\n[ERRO] Opcao invalida!\n");
 
     } while (opcao != 0);
 
-    // salvamento automático ao Sair
+    // Salvamento automático ao sair
     salvar_estoque(lista_estoque, total_produtos);
     printf("\nEncerrando o sistema FRESHGUARD. Você tem %d produtos no estoque.\n", total_produtos);
 
