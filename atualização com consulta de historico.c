@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <locale.h>
@@ -67,7 +68,7 @@ void registrar_movimentacao(Movimentacao hist[], int *total_mov, int cod, const 
     // Captura data e hora atuais
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    sprintf(nova_mov.data_hora, "%02d/%02d/%04d %02d:%02d:%02d", 
+    printf(nova_mov.data_hora, "%02d/%02d/%04d %02d:%02d:%02d", 
             tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
 
     hist[*total_mov] = nova_mov;
